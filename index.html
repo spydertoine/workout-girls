@@ -278,58 +278,54 @@
     </div>
 
     <script>
-        // On vérifie s'il y a un utilisateur dans l'URL ou dans la mémoire du téléphone
-        const urlParams = new URLSearchParams(window.location.search);
-        let user = urlParams.get('user');
-
-        if (!user) {
-            // Si pas de user dans l'URL, on cherche dans le stockage local
-            user = localStorage.getItem('activeUser');
-
-            if (user) {
-                // Si on le trouve dans la mémoire, on recharge la page avec le bon paramètre
-                window.location.href = 'index.html?user=' + user;
-            } else {
-                // Sinon, direction la page profil pour choisir !
-                window.location.href = 'profil.html';
-            }
-        } else {
-            // Si le user est dans l'URL, on s'assure qu'il est enregistré pour la prochaine fois
-            localStorage.setItem('activeUser', user);
-        }
+        /**
+         * LOGIQUE DE NAVIGATION ET PROFIL
+         */
         window.onload = function () {
-            // 1. Récupération du nom dans l'URL
+            // 1. Récupération du nom dans l'URL (?user=Axelle ou ?user=Clara)
             const urlParams = new URLSearchParams(window.location.search);
             const user = urlParams.get('user');
 
-            // 2. Redirection si pas de profil choisi
+            // 2. REDIRECTION STRICTE
+            // Si le nom n'est pas présent dans l'URL, on renvoie vers profil.html
             if (!user) {
                 window.location.href = 'profil.html';
-                return; // On arrête l'exécution ici
+                return; // On arrête l'exécution du reste du code
             }
 
-            // 3. Insertion du prénom
+            // 3. ENREGISTREMENT DANS LA MÉMOIRE
+            // On sauvegarde le nom pour que les pages de poids sachent qui remplit quoi
+            localStorage.setItem('activeUser', user);
+
+            // 4. AFFICHAGE DU PRÉNOM (DA : Coucou en dégradé)
             const nameElement = document.getElementById('user-name');
             if (nameElement) {
                 nameElement.innerText = user;
             }
 
-            // 4. Mise à jour de la date
-            const options = { weekday: 'long', day: 'numeric', month: 'long' };
+            // 5. MISE À JOUR DE LA DATE AUTOMATIQUE
             const dateElement = document.getElementById('current-date');
             if (dateElement) {
-                dateElement.innerText = new Date().toLocaleDateString('fr-FR', options);
+                const options = { weekday: 'long', day: 'numeric', month: 'long' };
+                const aujourdhui = new Date().toLocaleDateString('fr-FR', options);
+                // On met la première lettre en majuscule (ex: Lundi)
+                dateElement.innerText = aujourdhui.charAt(0).toUpperCase() + aujourdhui.slice(1);
             }
 
-            // 5. Transmission du nom aux boutons
-            document.querySelectorAll('a').forEach(link => {
-                const href = link.getAttribute('href');
-                // On vérifie que c'est un lien vers une page de jour et pas vers le profil
-                if (href && href.includes('.html') && !href.includes('profil.html')) {
-                    link.setAttribute('href', href + '?user=' + user);
+            // 6. TRANSMISSION DU PRÉNOM AUX LIENS DES JOURS
+            // On modifie tous les liens "lundi.html", "mardi.html", "jeudi.html"
+            // pour ajouter "?user=Axelle" automatiquement au clic
+            document.querySelectorAll('.day-link').forEach(link => {
+                const currentHref = link.getAttribute('href');
+                if (currentHref && currentHref.includes('.html') && !currentHref.includes('profil.html')) {
+                    link.setAttribute('href', currentHref + '?user=' + encodeURIComponent(user));
                 }
             });
         };
+
+        /**
+         * FONCTION DE DÉCONNEXION (Optionnelle si tu as mis le bouton)
+         */
         function logout() {
             localStorage.removeItem('activeUser');
         }
