@@ -237,7 +237,7 @@
                 display.innerText = "00:" + (seconds < 10 ? '0' + seconds : seconds);
                 if (seconds <= 0) {
                     clearInterval(timer);
-                    alert("Fin du chrono ! On enchaîne !");
+                    alert("Fin du chrono !");
                     display.innerText = "00:45";
                 }
             }, 1000);
