@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lundi | Workout Studio Premium</title>
+    <title>Lundi | Workout Studio</title>
     <link
         href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap"
         rel="stylesheet">
@@ -285,6 +285,44 @@
             transform: scale(0.97);
         }
 
+        /* Zone de saisie des charges */
+        .weight-track {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .weight-track label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--apple-sub);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .weight-input {
+            background: #f2f2f7;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 8px;
+            width: 80px;
+            font-family: inherit;
+            font-weight: 800;
+            text-align: center;
+            color: var(--accent);
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .weight-input:focus {
+            border-color: var(--accent);
+            background: white;
+            box-shadow: 0 0 10px var(--accent-soft);
+        }
+
         @media (max-width: 768px) {
             .exercise-grid {
                 grid-template-columns: 1fr;
@@ -385,6 +423,11 @@
                 <div class="img-box"><img
                         src="https://www.kettlebellkings.com/cdn/shop/articles/russian-twist_cf5b5524-a334-4364-9cb9-54b5a04962d9.gif?v=1739267488"
                         alt="Russian"></div>
+                <div class="weight-track">
+                    <label>Ta Charge (kg) :</label>
+                    <input type="number" class="weight-input" id="mardi_russian_twist" placeholder="0"
+                        oninput="saveWeight(this)">
+                </div>
                 <div class="card-body">
                     <div class="ex-info">
                         <h3>Russian Twists</h3>
@@ -469,7 +512,7 @@
         /**
          * 4. TON CODE TIMER ORIGINAL (Ne pas modifier)
          */
-        let countdown; let isRunning = false; let timeLeft = 30; const totalTime = 30;
+        let countdown; let isRunning = false; let timeLeft = 90; const totalTime = 90;
         const circ = document.getElementById('circle'); const circumference = 213.63;
         if (circ) circ.style.strokeDasharray = `${circumference} ${circumference}`;
 
@@ -486,10 +529,10 @@
         }
 
         function resetT() {
-            clearInterval(countdown); isRunning = false; timeLeft = 30;
+            clearInterval(countdown); isRunning = false; timeLeft = 90;
             const tDisplay = document.getElementById('timer');
             const bDisplay = document.getElementById('btn');
-            if (tDisplay) tDisplay.innerText = "30";
+            if (tDisplay) tDisplay.innerText = "90";
             if (bDisplay) bDisplay.innerText = "START REPOS";
             setProgress(100);
         }
