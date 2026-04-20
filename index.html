@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Visuel - Core & Cardio</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #ec4899;
+            --bg: #f1f5f9;
+            --card: #ffffff;
+            --text: #1e293b;
+            --accent: #10b981;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 15px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 15px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+            font-size: 1.4rem;
+            margin-top: 30px;
+        }
+
+        /* STYLE DES CARTES EXERCICES */
+        .exercise-card {
+            background: var(--card);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        .img-container {
+            width: 100%;
+            height: 200px;
+            background-color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* L'image remplira tout le cadre */
+        }
+
+        .card-content {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .exercise-info h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .exercise-info p {
+            margin: 5px 0 0;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .checkbox-custom {
+            width: 28px;
+            height: 28px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+
+        /* TIMER FLOTTANT */
+        .timer-sticky {
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            background: #1e293b;
+            color: #fbbf24;
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        #timer-display {
+            font-family: monospace;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Session Girls 🔥</h1>
+            <p>Objectif : Core d'acier & Cardio</p>
+        </header>
+
+        <div class="timer-sticky">
+            <div>
+                <span id="timer-label">Repos :</span>
+                <span id="timer-display">00:45</span>
+            </div>
+            <button onclick="startTimer()">START ⏱️</button>
+        </div>
+
+        <h2>1. Cardio Warm-up</h2>
+
+        <div class="exercise-card">
+            <div class="img-container">
+                <img src="https://www.lyfta.app/_next/image?url=%2Fthumbnails%2F36661201.jpg&w=3840&q=75"
+                    alt="Marche inclinée">
+            </div>
+            <div class="card-content">
+                <div class="exercise-info">
+                    <h3>Marche Inclinée</h3>
+                    <p>15 min | Pente 10% | 5km/h</p>
+                </div>
+                <input type="checkbox" class="checkbox-custom">
+            </div>
+        </div>
+
+        <h2>2. Circuit Abdos (3 tours)</h2>
+
+        <div class="exercise-card">
+            <div class="img-container">
+                <img src="https://muscu-street-et-crossfit.fr/wp-content/uploads/2022/07/Muscles-Planche.001-1.jpeg"
+                    alt="Planche">
+            </div>
+            <div class="card-content">
+                <div class="exercise-info">
+                    <h3>La Planche (Gainage)</h3>
+                    <p>Tenir 45 secondes</p>
+                </div>
+                <input type="checkbox" class="checkbox-custom">
+            </div>
+        </div>
+
+        <div class="exercise-card">
+            <div class="img-container">
+                <img src="https://liftmanual.com/wp-content/uploads/2023/04/dead-bug.jpg" alt="Dead Bug">
+            </div>
+            <div class="card-content">
+                <div class="exercise-info">
+                    <h3>Dead Bug</h3>
+                    <p>12 répétitions par côté</p>
+                </div>
+                <input type="checkbox" class="checkbox-custom">
+            </div>
+        </div>
+
+        <div class="exercise-card">
+            <div class="img-container">
+                <img src="https://muscu-street-et-crossfit.fr/wp-content/uploads/2024/09/Russian-twists.001.jpeg"
+                    alt="Russian Twist">
+            </div>
+            <div class="card-content">
+                <div class="exercise-info">
+                    <h3>Russian Twists</h3>
+                    <p>20 répétitions au total</p>
+                </div>
+                <input type="checkbox" class="checkbox-custom">
+            </div>
+        </div>
+
+        <h2>3. Fin de séance</h2>
+        <div class="exercise-card">
+            <div class="img-container">
+                <img src="https://img.passeportsante.net/1200x675/2020-11-26/i97839-.webp" alt="Russian Twist">
+            </div>
+            <div class="card-content">
+                <div class="exercise-info">
+                    <h3>Russian Twists</h3>
+                    <p>20 répétitions au total</p>
+                </div>
+                <input type="checkbox" class="checkbox-custom">
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        let timer;
+        function startTimer() {
+            clearInterval(timer);
+            let seconds = 45;
+            const display = document.getElementById('timer-display');
+
+            timer = setInterval(() => {
+                seconds--;
+                display.innerText = "00:" + (seconds < 10 ? '0' + seconds : seconds);
+                if (seconds <= 0) {
+                    clearInterval(timer);
+                    alert("Fin du chrono ! On enchaîne !");
+                    display.innerText = "00:45";
+                }
+            }, 1000);
+        }
+    </script>
+
+</body>
+
+</html>
