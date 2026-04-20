@@ -3,245 +3,240 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workout Visuel - Core & Cardio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Coach Studio | Dashboard</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600;700&family=Inter:wght@400;600;800&display=swap"
+        rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --secondary: #ec4899;
-            --bg: #f1f5f9;
-            --card: #ffffff;
-            --text: #1e293b;
-            --accent: #10b981;
+            --apple-bg: #f5f5f7;
+            --apple-card: rgba(255, 255, 255, 0.85);
+            --apple-text: #1d1d1f;
+            --apple-sub: #86868b;
+            --accent: #007aff;
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
+            font-family: 'SF Pro Display', 'Inter', -apple-system, sans-serif;
+            background-color: var(--apple-bg);
+            /* Petit dégradé de fond pour combler le vide */
+            background: radial-gradient(circle at top right, #e2e2ff, transparent),
+                radial-gradient(circle at bottom left, #ffe2e2, transparent),
+                var(--apple-bg);
+            background-attachment: fixed;
+            color: var(--apple-text);
             margin: 0;
-            padding: 15px;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
+        .main-wrapper {
+            width: 100%;
+            max-width: 1200px;
+            /* Largeur max pour PC */
         }
 
         header {
-            text-align: center;
-            padding: 30px 15px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border-radius: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px;
+            padding-left: 10px;
         }
 
-        h2 {
+        .date-today {
+            text-transform: uppercase;
+            color: var(--apple-sub);
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            font-weight: 700;
+            font-size: clamp(32px, 5vw, 48px);
+            /* Taille fluide */
+            letter-spacing: -1px;
+            margin: 5px 0;
+        }
+
+        #greeting {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* GRILLE ADAPTATIVE */
+        .calendar-grid {
+            display: grid;
+            /* 1 colonne sur mobile, 2 sur tablette, 3 sur PC */
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            padding: 10px;
+        }
+
+        .day-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .card {
+            background: var(--apple-card);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 28px;
+            padding: 30px;
+            height: 100%;
             display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--primary);
-            font-size: 1.4rem;
-            margin-top: 30px;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
+            box-sizing: border-box;
         }
 
-        /* STYLE DES CARTES EXERCICES */
-        .exercise-card {
-            background: var(--card);
-            border-radius: 15px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s;
+        /* Effet Hover pour PC */
+        @media (hover: hover) {
+            .card:hover {
+                transform: translateY(-8px) scale(1.02);
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08);
+                background: rgba(255, 255, 255, 0.95);
+            }
         }
 
-        .img-container {
-            width: 100%;
-            height: 200px;
-            background-color: #e2e8f0;
+        .card:active {
+            transform: scale(0.98);
+        }
+
+        .icon-circle {
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            margin-bottom: 25px;
+            font-size: 28px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
         }
 
-        .img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            /* L'image remplira tout le cadre */
-        }
-
-        .card-content {
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .exercise-info h3 {
+        .info-box h2 {
             margin: 0;
-            font-size: 1.1rem;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.4px;
         }
 
-        .exercise-info p {
-            margin: 5px 0 0;
-            font-size: 0.85rem;
-            color: #64748b;
+        .info-box p {
+            margin: 10px 0 20px 0;
+            font-size: 16px;
+            color: var(--apple-sub);
+            line-height: 1.4;
         }
 
-        .checkbox-custom {
-            width: 28px;
-            height: 28px;
-            accent-color: var(--accent);
-            cursor: pointer;
-        }
-
-        /* TIMER FLOTTANT */
-        .timer-sticky {
-            position: sticky;
-            top: 10px;
-            z-index: 100;
-            background: #1e293b;
-            color: #fbbf24;
-            padding: 15px;
+        .btn-start {
+            background: #f2f2f7;
+            color: var(--accent);
+            padding: 12px 20px;
             border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            font-weight: 600;
+            text-align: center;
+            font-size: 14px;
+            display: inline-block;
+            transition: background 0.2s;
         }
 
-        #timer-display {
-            font-family: monospace;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        button {
-            background: var(--accent);
+        /* Couleurs Apple Modernes */
+        .lundi .icon-circle {
+            background: linear-gradient(135deg, #5e5ce6, #a2a1ff);
             color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
+        }
+
+        .mardi .icon-circle {
+            background: linear-gradient(135deg, #34c759, #81e69b);
+            color: white;
+        }
+
+        .jeudi .icon-circle {
+            background: linear-gradient(135deg, #ff2d55, #ff7e9d);
+            color: white;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="container">
+    <div class="main-wrapper">
         <header>
-            <h1>Workout Girls Monday 🔥</h1>
-            <p>Core & Legs</p>
+            <div class="date-today" id="current-date">Lundi 20 Avril</div>
+            <h1><span id="greeting">Hello</span>, Prête pour ton workout ?</h1>
         </header>
 
-        <div class="timer-sticky">
-            <div>
-                <span id="timer-label">Repos :</span>
-                <span id="timer-display">00:45</span>
-            </div>
-            <button onclick="startTimer()">START ⏱️</button>
-        </div>
-
-        <h2>1. Cardio Warm-up</h2>
-
-        <div class="exercise-card">
-            <div class="img-container">
-                <img src="https://www.lyfta.app/_next/image?url=%2Fthumbnails%2F36661201.jpg&w=3840&q=75"
-                    alt="Marche inclinée">
-            </div>
-            <div class="card-content">
-                <div class="exercise-info">
-                    <h3>Marche Inclinée</h3>
-                    <p>15 min | Pente 10% | 5km/h</p>
+        <div class="calendar-grid">
+            <a href="lundi.html" class="day-link">
+                <div class="card lundi">
+                    <div>
+                        <div class="icon-circle"></div>
+                        <div class="info-box">
+                            <h2>Lundi : Abdos & Cardio</h2>
+                            <p>Focus sur la sangle abdominale et le gainage profond
+                            </p>
+                        </div>
+                    </div>
+                    <div class="btn-start">Ouvrir la séance</div>
                 </div>
-                <input type="checkbox" class="checkbox-custom">
-            </div>
-        </div>
+            </a>
 
-        <h2>2. Circuit Abdos (3 tours)</h2>
-
-        <div class="exercise-card">
-            <div class="img-container">
-                <img src="https://muscu-street-et-crossfit.fr/wp-content/uploads/2022/07/Muscles-Planche.001-1.jpeg"
-                    alt="Planche">
-            </div>
-            <div class="card-content">
-                <div class="exercise-info">
-                    <h3>La Planche (Gainage)</h3>
-                    <p>Tenir 45 secondes</p>
+            <a href="mardi.html" class="day-link">
+                <div class="card mardi">
+                    <div>
+                        <div class="icon-circle"></div>
+                        <div class="info-box">
+                            <h2>Mardi : Jambes & Dos</h2>
+                            <p>Travail des fessiers et des jambes.</p>
+                        </div>
+                    </div>
+                    <div class="btn-start">Voir le programme</div>
                 </div>
-                <input type="checkbox" class="checkbox-custom">
-            </div>
-        </div>
+            </a>
 
-        <div class="exercise-card">
-            <div class="img-container">
-                <img src="https://liftmanual.com/wp-content/uploads/2023/04/dead-bug.jpg" alt="Dead Bug">
-            </div>
-            <div class="card-content">
-                <div class="exercise-info">
-                    <h3>Dead Bug</h3>
-                    <p>12 répétitions par côté</p>
+            <a href="jeudi.html" class="day-link">
+                <div class="card jeudi">
+                    <div>
+                        <div class="icon-circle"></div>
+                        <div class="info-box">
+                            <h2>Jeudi : Full Body</h2>
+                            <p>Renforcement global du corps</p>
+                        </div>
+                    </div>
+                    <div class="btn-start">Voir le programme</div>
                 </div>
-                <input type="checkbox" class="checkbox-custom">
-            </div>
+            </a>
         </div>
-
-        <div class="exercise-card">
-            <div class="img-container">
-                <img src="https://muscu-street-et-crossfit.fr/wp-content/uploads/2024/09/Russian-twists.001.jpeg"
-                    alt="Russian Twist">
-            </div>
-            <div class="card-content">
-                <div class="exercise-info">
-                    <h3>Russian Twists</h3>
-                    <p>20 répétitions au total</p>
-                </div>
-                <input type="checkbox" class="checkbox-custom">
-            </div>
-        </div>
-
-        <h2>3. Fin de séance</h2>
-        <div class="exercise-card">
-            <div class="img-container">
-                <img src="https://img.passeportsante.net/1200x675/2020-11-26/i97839-.webp" alt="Etirements">
-            </div>
-            <div class="card-content">
-                <div class="exercise-info">
-                    <h3>Etirements</h3>
-                    <p>Ce que tu connais !!!</p>
-                </div>
-                <input type="checkbox" class="checkbox-custom">
-            </div>
-        </div>
-
-
     </div>
 
     <script>
-        let timer;
-        function startTimer() {
-            clearInterval(timer);
-            let seconds = 45;
-            const display = document.getElementById('timer-display');
+        // 1. Mise à jour de la date style Apple
+        const options = { weekday: 'long', day: 'numeric', month: 'long' };
+        document.getElementById('current-date').innerText = new Date().toLocaleDateString('fr-FR', options);
 
-            timer = setInterval(() => {
-                seconds--;
-                display.innerText = "00:" + (seconds < 10 ? '0' + seconds : seconds);
-                if (seconds <= 0) {
-                    clearInterval(timer);
-                    alert("Fin du chrono !");
-                    display.innerText = "00:45";
-                }
-            }, 1000);
+        // 2. Script de salutation intelligente (Java/JS)
+        function updateGreeting() {
+            const hour = new Date().getHours();
+            const greetingElement = document.getElementById('greeting');
+
+            if (hour < 12) {
+                greetingElement.innerText = "Coucou";
+            } else if (hour < 18) {
+                greetingElement.innerText = "Coucou";
+            } else {
+                greetingElement.innerText = "Coucou";
+            }
         }
+
+        updateGreeting();
     </script>
 
 </body>

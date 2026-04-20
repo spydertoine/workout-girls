@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lundi | Workout Studio Premium</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --apple-bg: #f5f5f7;
+            --apple-text: #1d1d1f;
+            --apple-sub: #86868b;
+            --accent: #5e5ce6;
+            --accent-grad: linear-gradient(135deg, #5e5ce6 0%, #a2a1ff 100%);
+            --accent-soft: rgba(94, 92, 230, 0.1);
+        }
+
+        body {
+            font-family: 'SF Pro Display', 'Inter', -apple-system, sans-serif;
+            background-color: var(--apple-bg);
+            background: radial-gradient(circle at top right, rgba(94, 92, 230, 0.15), transparent),
+                radial-gradient(circle at bottom left, rgba(162, 161, 255, 0.1), transparent),
+                var(--apple-bg);
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1100px;
+            padding: 60px 20px 100px 20px;
+            box-sizing: border-box;
+        }
+
+        header {
+            margin-bottom: 50px;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            font-size: clamp(38px, 6vw, 56px);
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: -2px;
+            background: var(--accent-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .meta-badge {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 20px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .timer-sticky-bar {
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+
+        .timer-wrap {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 32px;
+            padding: 20px 40px;
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 25px 50px rgba(94, 92, 230, 0.2);
+        }
+
+        .timer-visual {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.3s linear;
+            stroke-dasharray: 213.63;
+            stroke-dashoffset: 0;
+        }
+
+        .timer-num {
+            position: absolute;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--apple-text);
+        }
+
+        .timer-btn {
+            background: var(--accent-grad);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(94, 92, 230, 0.3);
+            transition: all 0.3s ease;
+            font-size: 16px;
+            min-width: 140px;
+        }
+
+        .timer-btn:active {
+            transform: scale(0.94);
+        }
+
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 30px;
+        }
+
+        .sect-title {
+            grid-column: 1 / -1;
+            font-size: 28px;
+            font-weight: 800;
+            margin: 50px 0 20px 0;
+            color: var(--apple-text);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .sect-title::before {
+            content: '';
+            width: 6px;
+            height: 30px;
+            background: var(--accent-grad);
+            border-radius: 10px;
+        }
+
+        /* --- BLOCK CSS MODIFIÉ POUR LA CORRECTION --- */
+        .ex-card {
+            background: white;
+            border-radius: 35px;
+            overflow: hidden;
+            /*overflow hidden est mis ici*/
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ex-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+        }
+
+        .img-box {
+            width: 100%;
+            aspect-ratio: 16/10;
+            background: white;
+            /* fond blanc pour les illustrations */
+            overflow: hidden;
+            /* CORRECTION 1 : Coupe tout ce qui dépasse */
+        }
+
+        .img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            /* CORRECTION 2 : Affiche l'illustration ENTIÈREMENT sans la couper */
+            padding: 20px;
+            /* Petit padding pour que l'illustration ne touche pas les bords */
+            box-sizing: border-box;
+            transition: transform 0.6s ease;
+        }
+
+        .ex-card:hover .img-box img {
+            transform: scale(1.05);
+        }
+
+        /* Légère animation au survol */
+
+        .card-body {
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ex-info h3 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .ex-info p {
+            margin: 8px 0 0;
+            color: var(--apple-sub);
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .check {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #e5e5ea;
+            appearance: none;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .check:checked {
+            background: #34c759;
+            border-color: #34c759;
+            box-shadow: 0 0 20px rgba(52, 199, 89, 0.4);
+        }
+
+        .check:checked::after {
+            content: '✓';
+            color: white;
+            position: absolute;
+            left: 50%;
+            top: 46%;
+            transform: translate(-50%, -50%);
+            font-weight: 800;
+            font-size: 20px;
+        }
+
+        .ex-card.done {
+            opacity: 0.6;
+            filter: grayscale(0.8);
+            transform: scale(0.97);
+        }
+
+        @media (max-width: 768px) {
+            .exercise-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-container">
+        <header>
+            <a href="index.html" class="back-link">‹ Dashboard</a>
+            <h1>Abdos & Cardio</h1>
+            <div class="meta-badge">Lundi • 45 min • Studio A</div>
+        </header>
+
+        <div class="timer-sticky-bar">
+            <div class="timer-wrap">
+                <div class="timer-visual">
+                    <svg class="progress-ring" width="80" height="80">
+                        <circle stroke="#e5e5ea" stroke-width="6" fill="transparent" r="34" cx="40" cy="40" />
+                        <circle class="progress-ring__circle" id="circle" stroke="url(#g)" stroke-width="6"
+                            stroke-linecap="round" fill="transparent" r="34" cx="40" cy="40" />
+                        <defs>
+                            <linearGradient id="g">
+                                <stop offset="0%" stop-color="#5e5ce6" />
+                                <stop offset="100%" stop-color="#a2a1ff" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="timer-num" id="timer">45</div>
+                </div>
+
+                <div class="controls-group">
+                    <button class="reset-btn" onclick="resetT()" title="Réinitialiser">↺</button>
+                    <button class="timer-btn" onclick="toggleTimer()" id="btn">START</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="exercise-grid">
+            <div class="sect-title">1. Échauffement</div>
+            <div class="ex-card">
+                <div class="img-box"><img
+                        src="https://thumbs.dreamstime.com/b/femme-faisant-du-v%C3%A9lo-cardio-stationnaire-exercice-de-rotation-illustration-vectorielle-plate-isol%C3%A9e-sur-fond-blanc-293269430.jpg"
+                        alt="Tapis"></div>
+                <div class="card-body">
+                    <div class="ex-info">
+                        <h3>Vélo</h3>
+                        <p>15 min • Allure où vous pouvez parler sans difficultés</p>
+                    </div>
+                    <input type="checkbox" class="check" onclick="mark(this)">
+                </div>
+            </div>
+
+            <div class="sect-title">2. Circuit Core (3 tours)</div>
+            <div class="ex-card">
+                <div class="img-box"><img
+                        src="https://images.squarespace-cdn.com/content/v1/55e406fbe4b0b03c5e7543ae/1495657675685-4ALCCSEWUZFDRQ5TIMRV/Prone+Plank"
+                        alt="Planche"></div>
+                <div class="card-body">
+                    <div class="ex-info">
+                        <h3>Planche Gainage</h3>
+                        <p>Tenir 45 secondes</p>
+                    </div>
+                    <input type="checkbox" class="check" onclick="mark(this)">
+                </div>
+            </div>
+            <div class="ex-card">
+                <div class="img-box"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/05/Dead-Bug.gif"
+                        alt="Deadbug"></div>
+                <div class="card-body">
+                    <div class="ex-info">
+                        <h3>Dead Bug</h3>
+                        <p>12 reps / côté</p>
+                    </div>
+                    <input type="checkbox" class="check" onclick="mark(this)">
+                </div>
+            </div>
+            <div class="ex-card">
+                <div class="img-box"><img src="https://fitnessvolt.com/wp-content/plugins/fv-app-core/exercises/360/0630.gif"
+                        alt="Climbers"></div>
+                <div class="card-body">
+                    <div class="ex-info">
+                        <h3>Mountain Climbers</h3>
+                        <p>30 secondes intenses</p>
+                    </div>
+                    <input type="checkbox" class="check" onclick="mark(this)">
+                </div>
+            </div>
+            <div class="ex-card">
+                <div class="img-box"><img src="https://www.kettlebellkings.com/cdn/shop/articles/russian-twist_cf5b5524-a334-4364-9cb9-54b5a04962d9.gif?v=1739267488"
+                        alt="Russian"></div>
+                <div class="card-body">
+                    <div class="ex-info">
+                        <h3>Russian Twists</h3>
+                        <p>20 répétitions totales</p>
+                    </div>
+                    <input type="checkbox" class="check" onclick="mark(this)">
+                </div>
+            </div>
+            <div class="ex-card">
+                <div class="img-box"><img src="https://miro.medium.com/0*BXE-g6QeWw5tqo4L.gif"
+                        alt="LegRaises"></div>
+                <div class="card-body">
+                    <div class="ex-info">
+                        <h3>Leg Raises</h3>
+                        <p>12 reps contrôlées</p>
+                    </div>
+                    <input type="checkbox" class="check" onclick="mark(this)">
+                </div>
+            </div>
+
+            <div class="sect-title">3. Souplesse</div>
+            <div class="ex-card">
+                <div class="img-box"><img src="https://www.docteur-fitness.com/wp-content/uploads/2022/08/bhujangasana-posture-du-cobra.gif"
+                        alt="Cobra"></div>
+                <div class="card-body">
+                    <div class="ex-info">
+                        <h3>Cobra</h3>
+                        <p>Bien tiré sur les abdos en haut du mouvement</p>
+                    </div>
+                    <input type="checkbox" class="check" onclick="mark(this)">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let countdown;
+        let isRunning = false;
+        let timeLeft = 45;
+        const totalTime = 45;
+
+        const circ = document.getElementById('circle');
+        const circumference = 213.63;
+        circ.style.strokeDasharray = `${circumference} ${circumference}`;
+
+        function setProgress(percent) {
+            const offset = circumference - (percent / 100 * circumference);
+            circ.style.strokeDashoffset = offset;
+        }
+
+        function toggleTimer() {
+            const btn = document.getElementById('btn');
+            if (isRunning) {
+                clearInterval(countdown);
+                btn.innerText = "REPRENDRE";
+                isRunning = false;
+            } else {
+                startT();
+                btn.innerText = "PAUSE";
+                isRunning = true;
+            }
+        }
+
+        function resetT() {
+            clearInterval(countdown);
+            isRunning = false;
+            timeLeft = 45;
+            document.getElementById('timer').innerText = "45";
+            document.getElementById('btn').innerText = "START";
+            setProgress(100);
+        }
+
+        function startT() {
+            countdown = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').innerText = timeLeft;
+                let percentage = (timeLeft / totalTime) * 100;
+                setProgress(percentage);
+
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    isRunning = false;
+                    document.getElementById('btn').innerText = "START";
+                    // Reset automatique sans message
+                    timeLeft = 45;
+                    document.getElementById('timer').innerText = "45";
+                    setProgress(100);
+                }
+            }, 1000);
+        }
+
+        function mark(cb) { cb.closest('.ex-card').classList.toggle('done'); }
+    </script>
+</body>
+
+</html>
