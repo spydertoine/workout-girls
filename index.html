@@ -53,12 +53,29 @@
             letter-spacing: 0.5px;
         }
 
+        /* Le texte normal (Coucou, prête...) reste en mauve/indigo */
         h1 {
-            font-weight: 700;
-            font-size: clamp(32px, 5vw, 48px);
-            /* Taille fluide */
-            letter-spacing: -1px;
-            margin: 5px 0;
+            font-size: clamp(34px, 6vw, 56px);
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #5e5ce6 0%, #a2a1ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Le PRÉNOM change de couleur - Choisis celle que tu préfères ci-dessous */
+        h1 span {
+            /* Option A : Rose Corail (pour rappeler le Mardi) */
+            background: linear-gradient(135deg, #ff2d55 0%, #ff7e9d 100%);
+
+            /* Option B : Si tu préfères un Doré luxueux, utilise celle-ci à la place : */
+            /* background: linear-gradient(135deg, #ffd700 0%, #ff9500 100%); */
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 0 5px;
+            /* Petit espace pour ne pas coller au texte mauve */
         }
 
         #greeting {
@@ -163,6 +180,44 @@
             background: linear-gradient(135deg, #ff2d55, #ff7e9d);
             color: white;
         }
+
+        .logout-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 60px;
+            /* Espace après les jours */
+            padding-bottom: 40px;
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background-color: rgba(0, 0, 0, 0.05);
+            /* Gris Apple très léger */
+            color: #86868b;
+            /* Couleur de texte secondaire iOS */
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: rgba(0, 0, 0, 0.08);
+            color: #1d1d1f;
+        }
+
+        .logout-btn:active {
+            transform: scale(0.95);
+        }
+
+        .logout-icon {
+            font-size: 12px;
+        }
     </style>
 </head>
 
@@ -170,8 +225,8 @@
 
     <div class="main-wrapper">
         <header>
-            <div class="date-today" id="current-date">Lundi 20 Avril</div>
-            <h1><span id="greeting">Hello</span>, Prête pour ton workout ?</h1>
+            <div class="date" id="current-date">Lundi 20 Avril</div>
+            <h1>Coucou <span id="user-name"></span>, prête pour ta séance ?</h1>
         </header>
 
         <div class="calendar-grid">
@@ -215,28 +270,69 @@
                 </div>
             </a>
         </div>
+        <div class="logout-wrapper">
+            <a href="profil.html" class="logout-btn" onclick="logout()">
+                <span class="logout-icon">✕</span> Changer de profil
+            </a>
+        </div>
     </div>
 
     <script>
-        // 1. Mise à jour de la date style Apple
-        const options = { weekday: 'long', day: 'numeric', month: 'long' };
-        document.getElementById('current-date').innerText = new Date().toLocaleDateString('fr-FR', options);
+        // On vérifie s'il y a un utilisateur dans l'URL ou dans la mémoire du téléphone
+        const urlParams = new URLSearchParams(window.location.search);
+        let user = urlParams.get('user');
 
-        // 2. Script de salutation intelligente (Java/JS)
-        function updateGreeting() {
-            const hour = new Date().getHours();
-            const greetingElement = document.getElementById('greeting');
+        if (!user) {
+            // Si pas de user dans l'URL, on cherche dans le stockage local
+            user = localStorage.getItem('activeUser');
 
-            if (hour < 12) {
-                greetingElement.innerText = "Coucou";
-            } else if (hour < 18) {
-                greetingElement.innerText = "Coucou";
+            if (user) {
+                // Si on le trouve dans la mémoire, on recharge la page avec le bon paramètre
+                window.location.href = 'index.html?user=' + user;
             } else {
-                greetingElement.innerText = "Coucou";
+                // Sinon, direction la page profil pour choisir !
+                window.location.href = 'profil.html';
             }
+        } else {
+            // Si le user est dans l'URL, on s'assure qu'il est enregistré pour la prochaine fois
+            localStorage.setItem('activeUser', user);
         }
+        window.onload = function () {
+            // 1. Récupération du nom dans l'URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const user = urlParams.get('user');
 
-        updateGreeting();
+            // 2. Redirection si pas de profil choisi
+            if (!user) {
+                window.location.href = 'profil.html';
+                return; // On arrête l'exécution ici
+            }
+
+            // 3. Insertion du prénom
+            const nameElement = document.getElementById('user-name');
+            if (nameElement) {
+                nameElement.innerText = user;
+            }
+
+            // 4. Mise à jour de la date
+            const options = { weekday: 'long', day: 'numeric', month: 'long' };
+            const dateElement = document.getElementById('current-date');
+            if (dateElement) {
+                dateElement.innerText = new Date().toLocaleDateString('fr-FR', options);
+            }
+
+            // 5. Transmission du nom aux boutons
+            document.querySelectorAll('a').forEach(link => {
+                const href = link.getAttribute('href');
+                // On vérifie que c'est un lien vers une page de jour et pas vers le profil
+                if (href && href.includes('.html') && !href.includes('profil.html')) {
+                    link.setAttribute('href', href + '?user=' + user);
+                }
+            });
+        };
+        function logout() {
+            localStorage.removeItem('activeUser');
+        }
     </script>
 
 </body>
