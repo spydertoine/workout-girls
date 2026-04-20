@@ -374,7 +374,7 @@
 
     <div class="main-container">
         <header>
-            <a href="index.html" class="back-link">‹ Dashboard</a>
+            <a href="index.html" class="back-link" id="link-to-index">‹ Dashboard</a>
             <h1>Mardi : Jambes & Dos</h1>
             <div class="meta-badge">Musculation • 45 min • Studio B</div>
         </header>
@@ -531,50 +531,90 @@
     </div>
 
     <script>
-        // 1. Récupération de l'utilisatrice
+        /**
+         * 1. GESTION DU PROFIL ET DU RETOUR AU DASHBOARD
+         */
+        // On récupère le nom de l'utilisatrice dans l'URL
         const urlParams = new URLSearchParams(window.location.search);
-        const user = urlParams.get('user') || localStorage.getItem('activeUser') || "Invitée";
+        const user = urlParams.get('user');
 
-        // 2. Fonction de sauvegarde automatique
+        // Si on a un utilisateur, on met à jour le lien "Dashboard" en haut de page
+        // pour qu'il ne demande pas de nouveau le profil
+        if (user) {
+            const backBtn = document.getElementById('link-to-index');
+            if (backBtn) {
+                backBtn.href = "index.html?user=" + encodeURIComponent(user);
+            }
+        }
+
+        /**
+         * 2. SAUVEGARDE DES POIDS (Local Storage)
+         */
+        // Fonction appelée à chaque fois qu'on tape un chiffre dans un input
         function saveWeight(input) {
             const exerciseId = input.id;
             const value = input.value;
-            // On crée une clé unique type: "Axelle_mardi_curl"
-            localStorage.setItem(`${user}_${exerciseId}`, value);
+            const activeUser = user || "Invitée";
+            // On enregistre sous la forme : Axelle_mardi_squat
+            localStorage.setItem(activeUser + "_" + exerciseId, value);
         }
 
-        // 3. Chargement des données au lancement de la page
+        /**
+         * 3. CHARGEMENT AU DÉMARRAGE
+         */
         window.onload = function () {
-            // Charger les poids enregistrés
+            // Charger les poids enregistrés pour l'utilisatrice actuelle
+            const activeUser = user || "Invitée";
             document.querySelectorAll('.weight-input').forEach(input => {
-                const savedValue = localStorage.getItem(`${user}_${input.id}`);
+                const savedValue = localStorage.getItem(activeUser + "_" + input.id);
                 if (savedValue) {
                     input.value = savedValue;
                 }
             });
 
-            // Config du Timer (ton code existant)
+            // Relancer le timer à zéro (ton code de base)
             resetT();
         };
 
-        // --- Ton code pour le Timer (ne pas modifier) ---
-        let countdown; let isRunning = false; let timeLeft = 90; const totalTime = 90;
+        /**
+         * 4. TON CODE TIMER ORIGINAL (Ne pas modifier)
+         */
+        let countdown; let isRunning = false; let timeLeft = 30; const totalTime = 30;
         const circ = document.getElementById('circle'); const circumference = 213.63;
-        circ.style.strokeDasharray = `${circumference} ${circumference}`;
-        function setProgress(percent) { const offset = circumference - (percent / 100 * circumference); circ.style.strokeDashoffset = offset; }
+        if (circ) circ.style.strokeDasharray = `${circumference} ${circumference}`;
+
+        function setProgress(percent) {
+            if (!circ) return;
+            const offset = circumference - (percent / 100 * circumference);
+            circ.style.strokeDashoffset = offset;
+        }
+
         function toggleTimer() {
             const btn = document.getElementById('btn');
             if (isRunning) { clearInterval(countdown); btn.innerText = "REPRENDRE"; isRunning = false; }
             else { startT(); btn.innerText = "PAUSE"; isRunning = true; }
         }
-        function resetT() { clearInterval(countdown); isRunning = false; timeLeft = 90; document.getElementById('timer').innerText = "90"; document.getElementById('btn').innerText = "START REPOS"; setProgress(100); }
+
+        function resetT() {
+            clearInterval(countdown); isRunning = false; timeLeft = 30;
+            const tDisplay = document.getElementById('timer');
+            const bDisplay = document.getElementById('btn');
+            if (tDisplay) tDisplay.innerText = "30";
+            if (bDisplay) bDisplay.innerText = "START REPOS";
+            setProgress(100);
+        }
+
         function startT() {
             countdown = setInterval(() => {
-                timeLeft--; document.getElementById('timer').innerText = timeLeft;
-                let percentage = (timeLeft / totalTime) * 100; setProgress(percentage);
-                if (timeLeft <= 0) { clearInterval(countdown); isRunning = false; document.getElementById('btn').innerText = "START REPOS"; timeLeft = 90; document.getElementById('timer').innerText = "90"; setProgress(100); }
+                timeLeft--;
+                const tDisplay = document.getElementById('timer');
+                if (tDisplay) tDisplay.innerText = timeLeft;
+                let percentage = (timeLeft / totalTime) * 100;
+                setProgress(percentage);
+                if (timeLeft <= 0) { resetT(); }
             }, 1000);
         }
+
         function mark(cb) { cb.closest('.ex-card').classList.toggle('done'); }
     </script>
 </body>
