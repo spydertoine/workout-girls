@@ -194,7 +194,7 @@
             border-radius: 10px;
         }
 
-      /* --- BLOCK CSS MODIFIÉ POUR LA CORRECTION --- */
+        /* --- BLOCK CSS MODIFIÉ POUR LA CORRECTION --- */
         .ex-card {
             background: white;
             border-radius: 35px;
@@ -310,6 +310,44 @@
             transform: scale(0.97);
         }
 
+        /* Zone de saisie des charges */
+        .weight-track {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .weight-track label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--apple-sub);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .weight-input {
+            background: #f2f2f7;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 8px;
+            width: 80px;
+            font-family: inherit;
+            font-weight: 800;
+            text-align: center;
+            color: var(--accent);
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .weight-input:focus {
+            border-color: var(--accent);
+            background: white;
+            box-shadow: 0 0 10px var(--accent-soft);
+        }
+
         @media (max-width: 768px) {
             .exercise-grid {
                 grid-template-columns: 1fr;
@@ -363,7 +401,8 @@
             <div class="sect-title">Échauffement</div>
 
             <div class="ex-card">
-                <div class="img-box"><img src="https://www.docteur-fitness.com/wp-content/uploads/2022/11/velo-stationnaire.gif"
+                <div class="img-box"><img
+                        src="https://www.docteur-fitness.com/wp-content/uploads/2022/11/velo-stationnaire.gif"
                         alt="Vélo"></div>
                 <div class="card-body">
                     <div class="ex-info">
@@ -376,7 +415,8 @@
             </div>
 
             <div class="ex-card">
-                <div class="img-box"><img src="https://www.lyfta.app/_next/image?url=%2Fthumbnails%2F32111201.jpg&w=3840&q=75"
+                <div class="img-box"><img
+                        src="https://www.lyfta.app/_next/image?url=%2Fthumbnails%2F32111201.jpg&w=3840&q=75"
                         alt="Pompes Genoux"></div>
                 <div class="card-body">
                     <div class="ex-info">
@@ -391,8 +431,14 @@
             <div class="sect-title">Workout Principal</div>
 
             <div class="ex-card">
-                <div class="img-box"><img src="https://www.docteur-fitness.com/wp-content/uploads/2022/08/curl-biceps-avec-halteres-alterne.gif"
+                <div class="img-box"><img
+                        src="https://www.docteur-fitness.com/wp-content/uploads/2022/08/curl-biceps-avec-halteres-alterne.gif"
                         alt="Curl"></div>
+                <div class="weight-track">
+                    <label>Ta Charge (kg) :</label>
+                    <input type="number" class="weight-input" id="mardi_curl" placeholder="0"
+                        oninput="saveWeight(this)">
+                </div>
                 <div class="card-body">
                     <div class="ex-info">
                         <h3>Curl Haltères (Suppi)</h3>
@@ -404,8 +450,14 @@
             </div>
 
             <div class="ex-card">
-                <div class="img-box"><img src="https://www.docteur-fitness.com/wp-content/uploads/2000/06/squat-goblet-exercice-musculation.gif"
+                <div class="img-box"><img
+                        src="https://www.docteur-fitness.com/wp-content/uploads/2000/06/squat-goblet-exercice-musculation.gif"
                         alt="Squat"></div>
+                <div class="weight-track">
+                    <label>Ta Charge (kg) :</label>
+                    <input type="number" class="weight-input" id="mardi_squat_haltere" placeholder="0"
+                        oninput="saveWeight(this)">
+                </div>
                 <div class="card-body">
                     <div class="ex-info">
                         <h3>Squats Haltère</h3>
@@ -417,8 +469,14 @@
             </div>
 
             <div class="ex-card">
-                <div class="img-box"><img src="https://www.fitadium.com/conseils/wp-content/uploads/2020/08/03341301-Dumbbell-Lateral-Raise_shoulder_720.gif"
+                <div class="img-box"><img
+                        src="https://www.fitadium.com/conseils/wp-content/uploads/2020/08/03341301-Dumbbell-Lateral-Raise_shoulder_720.gif"
                         alt="Lateral Raise"></div>
+                <div class="weight-track">
+                    <label>Ta Charge (kg) :</label>
+                    <input type="number" class="weight-input" id="mardi_lateral_raise" placeholder="0"
+                        oninput="saveWeight(this)">
+                </div>
                 <div class="card-body">
                     <div class="ex-info">
                         <h3>Élévations Latérales</h3>
@@ -430,8 +488,14 @@
             </div>
 
             <div class="ex-card">
-                <div class="img-box"><img src="https://www.docteur-fitness.com/wp-content/uploads/2021/12/fentes-avant-kettlebell.gif"
+                <div class="img-box"><img
+                        src="https://www.docteur-fitness.com/wp-content/uploads/2021/12/fentes-avant-kettlebell.gif"
                         alt="Fentes"></div>
+                <div class="weight-track">
+                    <label>Ta Charge (kg) :</label>
+                    <input type="number" class="weight-input" id="mardi_fente" placeholder="0"
+                        oninput="saveWeight(this)">
+                </div>
                 <div class="card-body">
                     <div class="ex-info">
                         <h3>Fentes (Option Haltère)</h3>
@@ -443,7 +507,8 @@
             </div>
 
             <div class="ex-card">
-                <div class="img-box"><img src="https://www.docteur-fitness.com/wp-content/uploads/2020/10/pompe-musculation.gif"
+                <div class="img-box"><img
+                        src="https://www.docteur-fitness.com/wp-content/uploads/2020/10/pompe-musculation.gif"
                         alt="Pompes"></div>
                 <div class="card-body">
                     <div class="ex-info">
@@ -458,7 +523,8 @@
             <div class="sect-title">Finisher & Stretch</div>
 
             <div class="ex-card">
-                <div class="img-box"><img src="https://images.squarespace-cdn.com/content/v1/55e406fbe4b0b03c5e7543ae/1495657675685-4ALCCSEWUZFDRQ5TIMRV/Prone+Plank"
+                <div class="img-box"><img
+                        src="https://images.squarespace-cdn.com/content/v1/55e406fbe4b0b03c5e7543ae/1495657675685-4ALCCSEWUZFDRQ5TIMRV/Prone+Plank"
                         alt="Gainage"></div>
                 <div class="card-body">
                     <div class="ex-info">
@@ -471,7 +537,8 @@
             </div>
 
             <div class="ex-card">
-                <div class="img-box"><img src="https://www.docteur-fitness.com/wp-content/uploads/2025/11/etirement-jambe-tendue-surelevee.gif"
+                <div class="img-box"><img
+                        src="https://www.docteur-fitness.com/wp-content/uploads/2025/11/etirement-jambe-tendue-surelevee.gif"
                         alt="Stretch"></div>
                 <div class="card-body">
                     <div class="ex-info">
@@ -486,60 +553,50 @@
     </div>
 
     <script>
-        let countdown;
-        let isRunning = false;
-        let timeLeft = 90; // Réglé à 30s selon tes consignes de repos
-        const totalTime = 90;
+        // 1. Récupération de l'utilisatrice
+        const urlParams = new URLSearchParams(window.location.search);
+        const user = urlParams.get('user') || localStorage.getItem('activeUser') || "Invitée";
 
-        const circ = document.getElementById('circle');
-        const circumference = 213.63;
-        circ.style.strokeDasharray = `${circumference} ${circumference}`;
-
-        function setProgress(percent) {
-            const offset = circumference - (percent / 100 * circumference);
-            circ.style.strokeDashoffset = offset;
+        // 2. Fonction de sauvegarde automatique
+        function saveWeight(input) {
+            const exerciseId = input.id;
+            const value = input.value;
+            // On crée une clé unique type: "Axelle_mardi_curl"
+            localStorage.setItem(`${user}_${exerciseId}`, value);
         }
 
+        // 3. Chargement des données au lancement de la page
+        window.onload = function () {
+            // Charger les poids enregistrés
+            document.querySelectorAll('.weight-input').forEach(input => {
+                const savedValue = localStorage.getItem(`${user}_${input.id}`);
+                if (savedValue) {
+                    input.value = savedValue;
+                }
+            });
+
+            // Config du Timer (ton code existant)
+            resetT();
+        };
+
+        // --- Ton code pour le Timer (ne pas modifier) ---
+        let countdown; let isRunning = false; let timeLeft = 90; const totalTime = 90;
+        const circ = document.getElementById('circle'); const circumference = 213.63;
+        circ.style.strokeDasharray = `${circumference} ${circumference}`;
+        function setProgress(percent) { const offset = circumference - (percent / 100 * circumference); circ.style.strokeDashoffset = offset; }
         function toggleTimer() {
             const btn = document.getElementById('btn');
-            if (isRunning) {
-                clearInterval(countdown);
-                btn.innerText = "REPRENDRE";
-                isRunning = false;
-            } else {
-                startT();
-                btn.innerText = "PAUSE";
-                isRunning = true;
-            }
+            if (isRunning) { clearInterval(countdown); btn.innerText = "REPRENDRE"; isRunning = false; }
+            else { startT(); btn.innerText = "PAUSE"; isRunning = true; }
         }
-
-        function resetT() {
-            clearInterval(countdown);
-            isRunning = false;
-            timeLeft = 90;
-            document.getElementById('timer').innerText = "90";
-            document.getElementById('btn').innerText = "START REPOS";
-            setProgress(100);
-        }
-
+        function resetT() { clearInterval(countdown); isRunning = false; timeLeft = 90; document.getElementById('timer').innerText = "90"; document.getElementById('btn').innerText = "START REPOS"; setProgress(100); }
         function startT() {
             countdown = setInterval(() => {
-                timeLeft--;
-                document.getElementById('timer').innerText = timeLeft;
-                let percentage = (timeLeft / totalTime) * 100;
-                setProgress(percentage);
-
-                if (timeLeft <= 0) {
-                    clearInterval(countdown);
-                    isRunning = false;
-                    document.getElementById('btn').innerText = "START REPOS";
-                    timeLeft = 90;
-                    document.getElementById('timer').innerText = "90";
-                    setProgress(100);
-                }
+                timeLeft--; document.getElementById('timer').innerText = timeLeft;
+                let percentage = (timeLeft / totalTime) * 100; setProgress(percentage);
+                if (timeLeft <= 0) { clearInterval(countdown); isRunning = false; document.getElementById('btn').innerText = "START REPOS"; timeLeft = 90; document.getElementById('timer').innerText = "90"; setProgress(100); }
             }, 1000);
         }
-
         function mark(cb) { cb.closest('.ex-card').classList.toggle('done'); }
     </script>
 </body>
