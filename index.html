@@ -218,6 +218,64 @@
         .logout-icon {
             font-size: 12px;
         }
+
+        /* Animation de vibration douce */
+        @keyframes soft-vibrate {
+            0% {
+                transform: scale(1);
+            }
+
+            25% {
+                transform: scale(1.02) rotate(0.5deg);
+            }
+
+            50% {
+                transform: scale(1);
+            }
+
+            75% {
+                transform: scale(1.02) rotate(-0.5deg);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Style appliqué à la carte du jour */
+        .card-today {
+            border: 2px solid var(--accent) !important;
+            /* Ajoute une bordure de la couleur du thème */
+            animation: soft-vibrate 3s ease-in-out infinite;
+            /* Fait vibrer la carte doucement */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+            position: relative;
+        }
+
+        /* Petit badge "AUJOURD'HUI" sur la carte */
+        .card-today::before {
+            content: "À FAIRE AUJOURD'HUI";
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--accent);
+            color: white;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 20px;
+            z-index: 10;
+            letter-spacing: 1px;
+        }
+
+        .card-today {
+            border: 2px solid var(--accent) !important;
+            animation: soft-vibrate 3s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+            position: relative;
+            border-radius: 28px;
+            /* <--- AJOUTE ÇA pour épouser l'arrondi de la carte */
+        }
     </style>
 </head>
 
@@ -230,21 +288,20 @@
         </header>
 
         <div class="calendar-grid">
-            <a href="lundi.html" class="day-link">
+            <a href="lundi.html" class="day-link workout-card">
                 <div class="card lundi">
                     <div>
                         <div class="icon-circle"></div>
                         <div class="info-box">
                             <h2>Lundi : Abdos & Cardio</h2>
-                            <p>Focus sur la sangle abdominale et le gainage profond
-                            </p>
+                            <p>Focus sur la sangle abdominale et le gainage profond</p>
                         </div>
                     </div>
                     <div class="btn-start">Voir le programme</div>
                 </div>
             </a>
 
-            <a href="mardi.html" class="day-link">
+            <a href="mardi.html" class="day-link workout-card">
                 <div class="card mardi">
                     <div>
                         <div class="icon-circle"></div>
@@ -257,7 +314,7 @@
                 </div>
             </a>
 
-            <a href="jeudi.html" class="day-link">
+            <a href="jeudi.html" class="day-link workout-card">
                 <div class="card jeudi">
                     <div>
                         <div class="icon-circle"></div>
@@ -268,11 +325,6 @@
                     </div>
                     <div class="btn-start">Voir le programme</div>
                 </div>
-            </a>
-        </div>
-        <div class="logout-wrapper">
-            <a href="profil.html" class="logout-btn" onclick="logout()">
-                <span class="logout-icon">✕</span> Changer de profil
             </a>
         </div>
     </div>
@@ -329,6 +381,26 @@
         function logout() {
             localStorage.removeItem('activeUser');
         }
+        window.addEventListener('DOMContentLoaded', () => {
+            const now = new Date();
+            const day = now.getDay(); // 1 = Lundi, 2 = Mardi, 4 = Jeudi
+
+            // On récupère toutes les cartes de sport
+            // Assure-toi que tes liens <a> ont bien ces href exacts
+            const cards = document.querySelectorAll('.workout-card');
+
+            cards.forEach(card => {
+                const href = card.getAttribute('href');
+
+                if (day === 1 && href.includes('lundi.html')) {
+                    card.classList.add('card-today');
+                } else if (day === 2 && href.includes('mardi.html')) {
+                    card.classList.add('card-today');
+                } else if (day === 4 && href.includes('jeudi.html')) {
+                    card.classList.add('card-today');
+                }
+            });
+        });
     </script>
 
 </body>

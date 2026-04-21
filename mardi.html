@@ -579,7 +579,7 @@
         /**
          * 4. TON CODE TIMER ORIGINAL (Ne pas modifier)
          */
-        let countdown; let isRunning = false; let timeLeft = 30; const totalTime = 30;
+        let countdown; let isRunning = false; let timeLeft = 90; const totalTime = 90;
         const circ = document.getElementById('circle'); const circumference = 213.63;
         if (circ) circ.style.strokeDasharray = `${circumference} ${circumference}`;
 
@@ -596,10 +596,10 @@
         }
 
         function resetT() {
-            clearInterval(countdown); isRunning = false; timeLeft = 30;
+            clearInterval(countdown); isRunning = false; timeLeft = 90;
             const tDisplay = document.getElementById('timer');
             const bDisplay = document.getElementById('btn');
-            if (tDisplay) tDisplay.innerText = "30";
+            if (tDisplay) tDisplay.innerText = "90";
             if (bDisplay) bDisplay.innerText = "START REPOS";
             setProgress(100);
         }
